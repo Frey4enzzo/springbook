@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <bean id="knight" class="ru.book.chapter02.ex2.BraveKnight">
+        <constructor-arg ref="quest" />
+    </bean>
+
+    <bean id="quest" class="ru.book.chapter02.ex2.MakeRoundTableRounderQuest"/>
+
+    <!-- Объявление компонента Minstrel -->
+    <bean id="minstrel" class="ru.book.chapter02.ex2.Minstrel" />
+
+    <aop:config>
+    <!-- ссылаемся на компонент minstrel -->
+    <aop:aspect ref="minstrel">
+        <!-- объявление точки внедрения -->
+        <aop:pointcut id="embark" expression="execution(* *.embarkOnQuest(..))" />
+        <!-- объявление предварительной операции (before advice) -->
+        <aop:before pointcut-ref="embark" method="singBeforeQuest" />
+        <!-- объявление последующей операции (after advice) -->
+        <aop:after pointcut-ref="embark" method="sinAfterQuest" />
+    </aop:aspect>
+</aop:config>
+
+</beans>
