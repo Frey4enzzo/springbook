@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd"
+
+       default-init-method="turnOnLights"
+       default-destroy-method="turnOffLights">
+
+    <bean id="duke" class="ru.book.chapter03.springidol.Juggler" />
+
+    <bean id="frey" class="ru.book.chapter03.springidol.Juggler">
+        <constructor-arg value="15" />
+    </bean>
+
+    <!-- объект поэмы Sonnet -->
+    <bean id="sonnet" class="ru.book.chapter03.springidol.Sonnet" />
+
+    <bean id="taras" class="ru.book.chapter03.springidol.PoeticJuggler">
+        <constructor-arg value="10" />
+        <constructor-arg ref="sonnet" />
+    </bean>
+
+    <!-- объект сцены (Stage), создание объекта через фабричный метод -->
+    <bean id="theStage" class="ru.book.chapter03.springidol.Stage"
+          factory-method="getInstance" />
+
+    <!-- пример жизненного цикла инициализации и уничтожения компонентов (вызов методов)-->
+    <bean id="hall" class="ru.book.chapter03.springidol.ConcertHall"
+          init-method="turnOnLights"
+          destroy-method="turnOffLights" />
+
+    <!-- бины инструментов -->
+    <bean id="saxophone" class="ru.book.chapter03.springidol.Saxophone"/>
+    <bean id="piano" class="ru.book.chapter03.springidol.Piano" />
+    <bean id="guitar" class="ru.book.chapter03.springidol.Guitar" />
+
+    <!-- исполнитель Instrumentalist (пример настройки свойств) -->
+    <bean id="igor" class="ru.book.chapter03.springidol.Instrumentalist" >
+        <!-- по сути property это методы setSong() и setAge() -->
+        <property name="song" value="По колпачку" />
+        <property name="age" value="31" />
+        <property name="instrument" ref="piano" />
+    </bean>
+
+    <bean id="miha" class="ru.book.chapter03.springidol.Instrumentalist">
+        <property name="song" value="Loose Yourself" />
+        <property name="instrument">
+            <bean class="ru.book.chapter03.springidol.Saxophone" />
+        </property>
+    </bean>
+
+    <!-- Пример использования пространства имен р-->
+    <bean id="olga" class="ru.book.chapter03.springidol.Instrumentalist"
+          p:song="I can bake a cake"
+          p:instrument-ref="saxophone" />
+
+    <!-- Пример внедрения списков, множеств и массивов -->
+    <bean id="alesha" class="ru.book.chapter03.springidol.OneManBand">
+        <property name="instruments">
+            <list>
+                <ref bean="saxophone" />
+                <ref bean="piano" />
+                <ref bean="guitar" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Пример внедрения отображений -->
+    <bean id="shum" class="ru.book.chapter03.springidol.OneManMap">
+        <property name="instruments">
+            <map>
+                <entry key="GUITAR" value-ref="guitar" />
+                <entry key="PIANO" value-ref="piano" />
+                <entry key="SAXOPHONE" value-ref="saxophone" />
+            </map>
+        </property>
+    </bean>
+
+    <!-- Использование SpEL -->
+    <!-- в этом примере новый исполнитель имитирует свойства igor и свойство olga-->
+    <bean id="carl" class="ru.book.chapter03.springidol.Instrumentalist" >
+        <property name="song" value="#{igor.song}" />
+        <property name="instrument" value="#{olga.instrument}" />
+    </bean>
+
+</beans>

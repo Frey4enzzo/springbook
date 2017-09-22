@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <bean id="instrument" class="ru.book.chapter04.Saxophone" />
+    <bean id="piano" class="ru.book.chapter04.Piano" />
+    <bean id="guitar" class="ru.book.chapter04.Guitar" />
+
+    <!-- Здесь происходит автоматическое связывание свойства
+        instrument объекта Instrumentalist и бина instrument (byName) -->
+    <!--<bean id="kenny" class="ru.book.chapter04.Instrumentalist"-->
+                        <!--autowire="byName">-->
+        <!--<property name="song" value="Белый ветер" />-->
+    <!--</bean>-->
+
+    <!-- Здесь происходит автоматическое связывание по типу
+        Свойство instrument автоматически связывается по типу с бином piano
+        Т.к. у этого бина атрибут primary true -->
+    <!--<bean id="goldberg" class="ru.book.chapter04.Instrumentalist"-->
+                        <!--autowire="byType">-->
+        <!--<property name="song" value="Eba ba ba ba" />-->
+    <!--</bean>-->
+
+    <!-- Включаем поддержку автоматического связывания на основе аннотаций -->
+    <context:annotation-config />
+
+    <bean id="kenny" class="ru.book.chapter04.Instrumentalist">
+        <property name="song" value="ku ku" />
+    </bean>
+
+    <!-- выполняет поиск классов помеченных спец аннотациями (см. annotations.txt) -->
+    <context:component-scan base-package="ru.book" />
+
+</beans>
