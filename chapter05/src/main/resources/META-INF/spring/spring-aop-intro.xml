@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <bean id="eddie" class="ru.book.chapter05.aop.Instrumentalist">
+        <property name="instrument">
+            <bean class="ru.book.chapter05.aop.Piano" />
+        </property>
+    </bean>
+
+    <bean id="audience" class="ru.book.chapter05.aop.Audience" />
+
+    <aop:config>
+        <aop:aspect ref="audience" >
+            <aop:pointcut id="perfomance" expression=
+                    "execution(* ru.book.chapter05.aop.Performer.perform(..))" />
+
+            <aop:before pointcut-ref="perfomance" method="takeSeats" />
+            <aop:before pointcut-ref="perfomance" method="turnOffCellPhones" />
+            <aop:after-returning pointcut-ref="perfomance" method="applaud" />
+            <aop:after-throwing pointcut-ref="perfomance" method="demandRefund" />
+        </aop:aspect>
+
+        <!-- Внедрение реализации Contestant в Performer-->
+        <aop:aspect>
+            <aop:declare-parents
+                    types-matching="ru.book.chapter05.aop.Performer+"
+                    implement-interface="ru.book.chapter05.aop.Contestant"
+                    default-impl="ru.book.chapter05.aop.GraciousContestant" />
+        </aop:aspect>
+    </aop:config>
+
+    <!-- Второй способ внедрения доп реализации Contestant в Performer -->
+    <!--
+    <bean id="contestantDelegate" class="ru.book.chapter05.aop.GraciousContestant" />
+
+    <aop:config>
+        <aop:aspect>
+            <aop:declare-parents
+                    types-matching="ru.book.chapter05.aop.Performer+"
+                    implement-interface="ru.book.chapter05.aop.Contestant"
+                    delegate-ref="contestantDelegate" />
+        </aop:aspect>
+    </aop:config>
+    -->
+
+</beans>

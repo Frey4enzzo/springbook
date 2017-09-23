@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/aop
+     http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+
+    <bean id="alexey" class="ru.book.chapter05.aop.Instrumentalist">
+        <property name="instrument">
+            <bean class="ru.book.chapter05.aop.Guitar" />
+        </property>
+    </bean>
+
+    <bean id="audience" class="ru.book.chapter05.aop.Audience" />
+
+    <!-- определение аспекта audience -->
+    <aop:config>
+        <!-- ссылка на компонент audience -->
+        <aop:aspect ref="audience">
+            <!-- определяем срез точек сопряжения -->
+            <!-- перед выступлением любого исполнителя из пакета aop -->
+            <aop:before pointcut="execution(* ru.book.chapter05.aop.Performer.perform(..))"
+                        method="takeSeats" />
+
+            <!-- перед выступлением -->
+            <aop:before pointcut="execution(* ru.book.chapter05.aop.Performer.perform(..))"
+                        method="turnOffCellPhones" />
+
+            <!-- после выступления -->
+            <aop:after-returning pointcut="execution(* ru.book.chapter05.aop.Performer.perform(..))"
+                    method="applaud" />
+
+            <!-- после неудачного выступления (в случае исключения) -->
+            <aop:after-throwing pointcut="execution(* ru.book.chapter05.aop.Performer.perform(..))"
+                    method="demandRefund" />
+
+        </aop:aspect>
+    </aop:config>
+
+
+</beans>

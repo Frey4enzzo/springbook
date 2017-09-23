@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <bean id="audience1" class="ru.book.chapter05.aop.AroundAudienceAOP" />
+
+    <bean id="igor" class="ru.book.chapter05.aop.Instrumentalist">
+        <property name="instrument">
+            <bean class="ru.book.chapter05.aop.Guitar" />
+        </property>
+    </bean>
+
+    <aop:config>
+        <aop:aspect ref="audience1">
+
+            <aop:pointcut id="perfomance2" expression=
+                    "execution(* ru.book.chapter05.aop.Performer.perform(..))" />
+
+            <!-- Совет выполняемый и До и После -->
+            <aop:around pointcut-ref="perfomance2" method="watchPerfomance" />
+
+        </aop:aspect>
+    </aop:config>
+
+</beans>
