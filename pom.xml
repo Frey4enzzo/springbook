@@ -17,10 +17,13 @@
         <module>chapter04</module>
         <module>chapter05</module>
         <module>chapter06</module>
+        <module>chapter06_1</module>
     </modules>
 
     <properties>
         <version.spring>4.3.11.RELEASE</version.spring>
+        <version.mysql>5.1.42</version.mysql>
+        <version.hibernate>4.3.5.Final</version.hibernate>
     </properties>
 
     <dependencyManagement>
@@ -44,6 +47,12 @@
                 <version>${version.spring}</version>
                 <scope>compile</scope>
             </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-orm</artifactId>
+                <version>${version.spring}</version>
+                <scope>compile</scope>
+            </dependency>
 
             <dependency>
                 <groupId>javax.inject</groupId>
@@ -51,9 +60,28 @@
                 <version>1</version>
             </dependency>
 
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${version.mysql}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-entitymanager</artifactId>
+                <version>${version.hibernate}</version>
+                <scope>compile</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.hibernate.javax.persistence</groupId>
+                <artifactId>hibernate-jpa-2.1-api</artifactId>
+                <version>1.0.0.Final</version>
+                <scope>compile</scope>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
-
 
 
 </project>

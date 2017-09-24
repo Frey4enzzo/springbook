@@ -5,10 +5,9 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>ru.book</groupId>
-    <artifactId>chapter06</artifactId>
+    <artifactId>chapter06_1</artifactId>
     <packaging>jar</packaging>
-    <name>06 - JPA</name>
-
+    <name>06_1 - JPA (Contact Example)</name>
 
     <parent>
         <artifactId>springbook</artifactId>
